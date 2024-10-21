@@ -1,0 +1,174 @@
+.content {
+    
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 30%; /* Reduce the width to make it smaller */
+    margin: 20px auto;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #0c0c0c;
+    /* Add some depth to the card */
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+    /* Rest of the styles... */
+  }
+  
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .image-container img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    animation: spin 5s linear infinite; /* Spin animation */
+  }
+  
+  
+  
+  .temperature {
+    font-size: 64px;
+    font-weight: bold;
+    margin-left: 30px;
+    color: #9d9c99; /* Amber color */
+    animation: pulse 2s infinite; /* Pulse animation */
+  }
+  
+
+  
+  .section-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .top-info, .bottom-info {
+    margin: 20px 0; /* Increased margin */
+    background-color: #460504; /* Light yellow background */
+    padding: 15px; /* Increased padding */
+    border-radius: 10px; /* Increased border radius */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    animation: slideIn 2s; /* Slide in animation */
+  }
+  
+ 
+  
+  .top-info {
+    animation-delay: 0.5s; /* Delayed animation */
+  }
+  
+  .bottom-info {
+    animation-delay: 1s; /* Delayed animation */
+  }
+  
+  
+  .info-box {
+    background-color: #E9ECEF; /* Light gray background */
+    padding: 15px; /* Increased padding */
+    border-radius: 8px; /* Increased border radius */
+    margin: 10px 0; /* Increased margin */
+    width: 250px; /* Fixed width */
+    text-align: center; /* Centered text */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    animation: bounceIn 2s; /* Bounce in animation */
+  }
+  
+ 
+  
+  .info-box:hover {
+    transform: scale(1.1); /* Scale up on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Increased box shadow on hover */
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+  
+  }
+  h1 {
+    color: #00698f; /* Deep blue color */
+    font-size: 36px; /* Larger font size */
+    font-weight: bold; /* Bold font weight */
+    text-align: center; /* Centered text */
+    margin-bottom: 20px; /* Added margin bottom */
+    animation: fadeIn 2s; /* Fade in animation */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f7f7f7; /* Light gray background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    animation: fadeIn 2s; /* Fade in animation */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .search-input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 200px;
+    background-color: #ffffff; /* White background */
+    color: #333333; /* Dark gray text color */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Added box shadow */
+    transition: box-shadow 0.3s ease-in-out; /* Smooth transition */
+  }
+  
+  .search-input:focus {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Increased box shadow on focus */
+  }
+  
+  .search-button {
+    padding: 10px 20px;
+    background-color: #00698f; /* Deep blue color */
+    color: #ffffff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out; /* Smooth transition */
+    animation: pulse 2s infinite; /* Pulse animation */
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .search-button:hover {
+    background-color: #004d7b; /* Darker blue color on hover */
+  }
+  
+  .search-button:active {
+    background-color: #003d66; /* Even darker blue color on active */
+  }
+  
