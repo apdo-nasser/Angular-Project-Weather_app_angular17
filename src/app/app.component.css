@@ -37,7 +37,7 @@
     font-size: 64px;
     font-weight: bold;
     margin-left: 30px;
-    color: #9d9c99; /* Amber color */
+    color: #6e6b62; /* Amber color */
     animation: pulse 2s infinite; /* Pulse animation */
   }
   
@@ -70,7 +70,7 @@
   
   
   .info-box {
-    background-color: #E9ECEF; /* Light gray background */
+    background-color: #0c0c0c; /* Light gray background */
     padding: 15px; /* Increased padding */
     border-radius: 8px; /* Increased border radius */
     margin: 10px 0; /* Increased margin */
@@ -170,5 +170,15 @@
   
   .search-button:active {
     background-color: #003d66; /* Even darker blue color on active */
+  }
+  .p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #100f0f;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #0d0c0c;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
