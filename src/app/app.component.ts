@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeatherService } from './service/weather.service';
-import * as countryData from 'country-list';
 import { Observable, of } from 'rxjs';
 import { startWith, map, switchMap, debounceTime, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+
+interface FreeWeatherCitySearchResponse {
+  results: Array<{
+    name: string;
+    country: string;
+  }>;
+}
 
 @Component({
   selector: 'app-root',
@@ -23,6 +29,9 @@ export class AppComponent implements OnInit {
   recentSearches: string[] = [];
   private cache: { [key: string]: string[] } = {};
 
+  private freeWeatherApiKey: string = 'c2f660820d8c405c89b61b5615b32269';
+  private freeWeatherCitySearchUrl: string = 'https://api.freeweather.com/v1/cities';
+
   constructor(private fb: FormBuilder, private service: WeatherService, private http: HttpClient) {}
 
   ngOnInit() {
@@ -30,35 +39,40 @@ export class AppComponent implements OnInit {
       city: [null, Validators.required]
     });
 
+    // Trigger the filter logic after 2 or 3 characters are entered
     this.filteredOptions = this.searchForm.get('city')!.valueChanges.pipe(
       startWith(''),
-      debounceTime(500), // Increased debounce time
-      switchMap(value => this._filter(value || ''))
+      debounceTime(300), // Reducing the debounce time for faster response
+      switchMap((value: string) => this._filter(value || ''))
     );
 
     this.loadRecentSearches();
   }
 
   private _filter(value: string): Observable<string[]> {
+    // Only trigger the API call when 2 or more characters are entered
+    if (value.length < 2) {
+      return of([]); // Return empty array if less than 2 characters are entered
+    }
+
     if (this.cache[value]) {
-      return of(this.cache[value]);
+      return of(this.cache[value]); // Return cached results if available
     }
 
-    if (value.length < 3) {
-      return of([]);
-    }
-
-    return this.http.get<any>(`https://api.teleport.org/api/cities/?search=${value}`).pipe(
-      map(response => {
-        const options = response._embedded['city:search-results'].map((city: any) => city.matching_full_name);
-        this.cache[value] = options;
-        return options;
-      }),
-      catchError((error) => {
-        this.errorMessage = 'Failed to fetch city names. Please try again later.';
-        return of([]);
-      })
-    );
+    // Call the FreeWeather API's city search endpoint
+    return this.http
+      .get<FreeWeatherCitySearchResponse>(`${this.freeWeatherCitySearchUrl}?q=${value}&appid=${this.freeWeatherApiKey}`)
+      .pipe(
+        map((response) => {
+          const options = response.results.map((result) => `${result.name}, ${result.country}`);
+          this.cache[value] = options;
+          return options;
+        }),
+        catchError((error) => {
+          this.errorMessage = 'Failed to fetch city names. Please try again later.';
+          return of([]);
+        })
+      );
   }
 
   private loadRecentSearches() {
@@ -90,7 +104,7 @@ export class AppComponent implements OnInit {
         this.currentCityName = city;
         const countryCode = resp.sys.country;
         this.countryFlagUrl = `https://flagcdn.com/256x192/${countryCode?.toLowerCase() ?? 'unknown'}.png`;
-        this.countryName = countryData.getName(countryCode) || 'Unknown Country';
+        this.countryName = countryCode;
         this.setBodyBackground(resp.weather[0].main, resp.sys.sunrise, resp.sys.sunset);
       },
       (error) => {
@@ -106,7 +120,6 @@ export class AppComponent implements OnInit {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
           this.getWeatherByCoords(lat, lon);
-          this.getCityNameByCoords(lat, lon);
         },
         (error) => {
           this.errorMessage = 'Geolocation is not enabled or available.';
@@ -125,7 +138,7 @@ export class AppComponent implements OnInit {
 
         const countryCode = resp.sys.country;
         this.countryFlagUrl = `https://flagcdn.com/256x192/${countryCode?.toLowerCase() ?? 'unknown'}.png`;
-        this.countryName = countryData.getName(countryCode) || 'Unknown Country';
+        this.countryName = countryCode;
         this.setBodyBackground(resp.weather[0].main, resp.sys.sunrise, resp.sys.sunset);
       },
       (error) => {
@@ -134,23 +147,10 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getCityNameByCoords(lat: number, lon: number) {
-    this.service.getCityNameByCoordinates(lat, lon).subscribe(
-      (resp) => {
-        const cityName = resp.name;
-        this.currentCityName = cityName;
-      },
-      (error) => {
-        this.errorMessage = 'Failed to retrieve city name.';
-      }
-    );
-  }
-
   setBodyBackground(weatherCondition: string, sunrise: number, sunset: number) {
     const currentTime = Math.floor(Date.now() / 1000);
     this.isDay = currentTime >= sunrise && currentTime <= sunset;
     const body = document.querySelector('body')!;
-    let timeOfDay = this.isDay ? 'day' : 'night';
 
     switch (weatherCondition.toLowerCase()) {
       case 'clear':
