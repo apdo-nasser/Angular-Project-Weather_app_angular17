@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http'; // Updated import
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -13,11 +14,14 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    BrowserModule,
     FormsModule,
-    HttpClientModule
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient() // Updated usage
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -15,4 +15,10 @@ export class WeatherService {
     const url = `${this.apiUrl}?q=${city}&units=metric&appid=${this.apiKey}`;
     return this.http.get(url);
   }
+  getWeatherByCoordinates(lat: number, lon: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`);
+  }
+  getCityNameByCoordinates(lat: number, lon: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`);
+  }
 }
