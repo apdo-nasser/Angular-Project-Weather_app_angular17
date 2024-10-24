@@ -5,11 +5,11 @@ import { Observable, of } from 'rxjs';
 import { startWith, map, switchMap, debounceTime, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
-interface FreeWeatherCitySearchResponse {
-  results: Array<{
-    name: string;
-    country: string;
-  }>;
+interface OpenWeatherGeocodingResponse {
+  name: string;
+  country: string;
+  lat: number;
+  lon: number;
 }
 
 @Component({
@@ -28,9 +28,11 @@ export class AppComponent implements OnInit {
   filteredOptions!: Observable<string[]>;
   recentSearches: string[] = [];
   private cache: { [key: string]: string[] } = {};
+  showPhotos: boolean = false; // Add this line
 
-  private freeWeatherApiKey: string = 'c2f660820d8c405c89b61b5615b32269';
-  private freeWeatherCitySearchUrl: string = 'https://api.freeweather.com/v1/cities';
+  // Use OpenWeather API key and Geocoding API URL
+  private openWeatherApiKey: string = 'c2f660820d8c405c89b61b5615b32269';
+  private openWeatherGeocodingUrl: string = 'http://api.openweathermap.org/geo/1.0/direct';
 
   constructor(private fb: FormBuilder, private service: WeatherService, private http: HttpClient) {}
 
@@ -54,17 +56,18 @@ export class AppComponent implements OnInit {
     if (value.length < 2) {
       return of([]); // Return empty array if less than 2 characters are entered
     }
-
+  
     if (this.cache[value]) {
       return of(this.cache[value]); // Return cached results if available
     }
-
-    // Call the FreeWeather API's city search endpoint
+  
+    // Call OpenWeather Geocoding API for city suggestions
     return this.http
-      .get<FreeWeatherCitySearchResponse>(`${this.freeWeatherCitySearchUrl}?q=${value}&appid=${this.freeWeatherApiKey}`)
+      .get<OpenWeatherGeocodingResponse[]>(`${this.openWeatherGeocodingUrl}?q=${value}&limit=5&appid=${this.openWeatherApiKey}`)
       .pipe(
         map((response) => {
-          const options = response.results.map((result) => `${result.name}, ${result.country}`);
+          // Show only city names, no country codes
+          const options = response.map((result) => result.name);
           this.cache[value] = options;
           return options;
         }),
@@ -74,6 +77,7 @@ export class AppComponent implements OnInit {
         })
       );
   }
+  
 
   private loadRecentSearches() {
     const searches = localStorage.getItem('recentSearches');
@@ -106,9 +110,11 @@ export class AppComponent implements OnInit {
         this.countryFlagUrl = `https://flagcdn.com/256x192/${countryCode?.toLowerCase() ?? 'unknown'}.png`;
         this.countryName = countryCode;
         this.setBodyBackground(resp.weather[0].main, resp.sys.sunrise, resp.sys.sunset);
+        this.showPhotos = true; // Add this line
       },
       (error) => {
         this.errorMessage = 'Failed to fetch weather data. Please try again.';
+        this.showPhotos = false; // Add this line
       }
     );
   }
@@ -140,9 +146,11 @@ export class AppComponent implements OnInit {
         this.countryFlagUrl = `https://flagcdn.com/256x192/${countryCode?.toLowerCase() ?? 'unknown'}.png`;
         this.countryName = countryCode;
         this.setBodyBackground(resp.weather[0].main, resp.sys.sunrise, resp.sys.sunset);
+        this.showPhotos = true; // Add this line
       },
       (error) => {
         this.errorMessage = 'Failed to fetch weather data using your location.';
+        this.showPhotos = false; // Add this line
       }
     );
   }
@@ -180,4 +188,5 @@ export class AppComponent implements OnInit {
         break;
     }
   }
+
 }

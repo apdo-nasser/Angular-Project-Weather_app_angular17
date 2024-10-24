@@ -1,19 +1,32 @@
-<h1>Weather App</h1>
-<div class="search-container" [formGroup]="searchForm">
-  <mat-form-field class="example-full-width">
-    <input type="text" matInput placeholder="Enter City" formControlName="city" [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-        <span [innerHTML]="highlight(option, searchForm.get('city')!.value)"></span>
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <button class="search-button" (click)="searchWeather()">Search</button>
-  <button class="geo-button" (click)="getLocation()">Use My Location</button>
+<!-- Background Video -->
+<div class="background-video-container" *ngIf="!weather">
+  <video id="background-video" autoplay loop muted>
+    <source src="assets/videos/earth-moving.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
 </div>
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
+
+<!-- Overlay Container with Search Form and Buttons -->
+<div class="overlay-container">
+  <h1>Weather App</h1>
+  <div class="search-container" [formGroup]="searchForm">
+    <mat-form-field class="example-full-width">
+      <input type="text" matInput placeholder="Enter City" formControlName="city" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <span [innerHTML]="highlight(option, searchForm.get('city')!.value)"></span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button class="search-button" (click)="searchWeather()">Search</button>
+    <button class="geo-button" (click)="getLocation()">Use My Location</button>
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
 </div>
+
+<!-- Weather Details -->
 <div class="content" *ngIf="weather">
   <div class="weather-card">
     <div class="header">
