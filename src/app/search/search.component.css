@@ -1,0 +1,66 @@
+/* Search bar and button container */
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .mat-form-field {
+    width: 250px;
+    margin-right: 10px;
+  }
+  
+  
+  
+  .search-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2), /* 3D effect shadow */
+                0px 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.3s ease; /* Smooth transition for hover */
+    background-color: #1e90ff;
+    margin-right: 5px;
+    
+  }
+  
+  .geo-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2), /* 3D effect shadow */
+                0px 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.3s ease; /* Smooth transition for hover */
+    background-color: #32cd32;
+  }
+  
+  .search-button:hover {
+    background-color: #0b76e1;
+    transform: translateY(-2px); /* Lift button up */
+    box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.2), 0px 8px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  }
+  
+  .geo-button:hover {
+    background-color: #228b22;
+    transform: translateY(-2px); /* Lift button up */
+    box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.2), 0px 8px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  }
+  
+  .search-button:active,
+  .geo-button:active {
+    transform: translateY(2px); /* Press-down effect */
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2), 0px 4px 10px rgba(0, 0, 0, 0.15); /* Reduced shadow */
+  }
+  
+  .error-message {
+    margin-top: 10px;
+    color: red;
+    font-size: 1.2rem;
+  }
+  

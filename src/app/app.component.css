@@ -11,61 +11,26 @@ body {
   align-items: center;
 }
 
-/* Ensure the search bar, buttons, and header are in the top left */
+/* Overlay container positioning */
 .overlay-container {
   position: absolute;
   top: 20px;
   left: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-start;
   z-index: 1; /* Keep it above the background video */
 }
 
 h1 {
   margin-bottom: 10px;
-  font-size: 2rem;
-  color: #fff;
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.3); /* Transparent white */
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5), /* Dark shadow for 3D effect */
+               4px 4px 0 rgba(0, 0, 0, 0.3); /* Lighter offset shadow for depth */
+  font-weight: bold;
 }
 
-/* Search bar and button container */
-.search-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.mat-form-field {
-  width: 250px;
-  margin-right: 10px;
-}
-
-.search-button,
-.geo-button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #1e90ff;
-  color: #fff;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-.geo-button {
-  background-color: #32cd32;
-}
-
-.search-button:hover,
-.geo-button:hover {
-  background-color: #0b76e1;
-}
-
-.error-message {
-  margin-top: 20px;
-  color: red;
-  font-size: 1.2rem;
-}
 
 /* Center the weather card */
 .content {
@@ -76,18 +41,6 @@ h1 {
   width: 100%;
   padding: 0;
   margin: 0;
-}
-
-.weather-card {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  border-radius: 10px;
-  color: #fff;
-  text-align: center;
-  max-width: 400px;
-  width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  z-index: 2; /* Ensure it's above the background video */
 }
 
 /* Video background container */
@@ -105,53 +58,4 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.image-container img {
-  width: 80px;
-  height: 80px;
-  transition: transform 0.3s;
-}
-
-.image-container img:hover {
-  transform: scale(1.1);
-}
-
-.location-info {
-  margin-left: 15px;
-  text-align: left;
-}
-
-.city {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.country {
-  font-size: 1.2rem;
-}
-
-.weather-details p {
-  font-size: 1.2rem;
-  margin: 5px 0;
-}
-
-.temperature {
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-.weather-description,
-.humidity,
-.wind-speed,
-.day-night,
-.expected-temp {
-  font-size: 1.2rem;
-  margin-top: 10px;
 }

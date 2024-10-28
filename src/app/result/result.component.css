@@ -1,0 +1,64 @@
+/* Weather card styling */
+.weather-card {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 2; /* Ensure it's above the background video */
+  }
+  
+  /* Header styling */
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .image-container img {
+    width: 80px;
+    height: 80px;
+    transition: transform 0.3s;
+  }
+  
+  .image-container img:hover {
+    transform: scale(1.1);
+  }
+  
+  .location-info {
+    margin-left: 15px;
+    text-align: left;
+  }
+  
+  .city {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .country {
+    font-size: 1.2rem;
+  }
+  
+  /* Weather details styling */
+  .weather-details p {
+    font-size: 1.2rem;
+    margin: 5px 0;
+  }
+  
+  .temperature {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  .weather-description,
+  .humidity,
+  .wind-speed,
+  .day-night,
+  .expected-temp {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+  

@@ -1,0 +1,16 @@
+<div class="search-container" [formGroup]="searchForm">
+    <mat-form-field class="example-full-width">
+      <input type="text" matInput placeholder="Enter City" formControlName="city" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <span [innerHTML]="highlight(option, searchForm.get('city')!.value)"></span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button class="search-button" (click)="searchWeather()">Search</button>
+    <button class="geo-button" (click)="getLocation()">Use My Location</button>
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+  
