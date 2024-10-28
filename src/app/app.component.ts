@@ -1,16 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WeatherService } from './service/weather.service';
-import { Observable, of } from 'rxjs';
-import { startWith, map, switchMap, debounceTime, catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-
-interface OpenWeatherGeocodingResponse {
-  name: string;
-  country: string;
-  lat: number;
-  lon: number;
-}
 
 @Component({
   selector: 'app-root',
@@ -18,120 +7,27 @@ interface OpenWeatherGeocodingResponse {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  searchForm!: FormGroup;
   weather: any;
   errorMessage: string | null = null;
   currentCityName: string | null = null;
   isDay: boolean = true;
   countryFlagUrl: string | null = null;
   countryName: string | null = null;
-  filteredOptions!: Observable<string[]>;
-  recentSearches: string[] = [];
-  private cache: { [key: string]: string[] } = {};
   showPhotos: boolean = false;
 
-  private openWeatherApiKey: string = 'c2f660820d8c405c89b61b5615b32269';
-  private openWeatherGeocodingUrl: string = 'http://api.openweathermap.org/geo/1.0/direct';
+  constructor(private weatherService: WeatherService) {}
 
-  constructor(private fb: FormBuilder, private service: WeatherService, private http: HttpClient) {}
+  ngOnInit() {}
 
-  ngOnInit() {
-    this.searchForm = this.fb.group({
-      city: [null, Validators.required]
-    });
-
-    this.filteredOptions = this.searchForm.get('city')!.valueChanges.pipe(
-      startWith(''),
-      debounceTime(300),
-      switchMap((value: string) => this._filter(value || ''))
-    );
-
-    this.loadRecentSearches();
-  }
-
-  private _filter(value: string): Observable<string[]> {
-    if (value.length < 2) return of([]);
-
-    if (this.cache[value]) return of(this.cache[value]);
-
-    return this.http.get<OpenWeatherGeocodingResponse[]>(`${this.openWeatherGeocodingUrl}?q=${value}&limit=5&appid=${this.openWeatherApiKey}`).pipe(
-      map((response) => {
-        const options = response.map((result) => result.name);
-        this.cache[value] = options;
-        return options;
-      }),
-      catchError(() => {
-        this.errorMessage = 'Failed to fetch city names. Please try again later.';
-        return of([]);
-      })
-    );
-  }
-
-  private loadRecentSearches() {
-    const searches = localStorage.getItem('recentSearches');
-    if (searches) this.recentSearches = JSON.parse(searches);
-  }
-
-  private saveRecentSearch(city: string) {
-    if (!this.recentSearches.includes(city)) {
-      this.recentSearches.push(city);
-      localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches));
-    }
-  }
-
-  highlight(option: string, value: string): string {
-    const re = new RegExp(value, 'gi');
-    return option.replace(re, `<b>${value}</b>`);
-  }
-
-  searchWeather() {
-    const city = this.searchForm.get('city')!.value;
-    this.saveRecentSearch(city);
-    this.service.getWeather(city).subscribe(
-      (resp) => {
-        this.weather = resp;
-        this.errorMessage = null;
-        this.currentCityName = city;
-        const countryCode = resp.sys.country;
-        this.countryFlagUrl = `https://flagcdn.com/256x192/${countryCode?.toLowerCase() ?? 'unknown'}.png`;
-        this.countryName = countryCode;
-        this.setBodyBackground(resp.weather[0].main, resp.sys.sunrise, resp.sys.sunset);
-        this.showPhotos = true;
-      },
-      () => {
-        this.errorMessage = 'Failed to fetch weather data. Please try again.';
-        this.showPhotos = false;
-      }
-    );
-  }
-
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => this.getWeatherByCoords(position.coords.latitude, position.coords.longitude),
-        () => this.errorMessage = 'Geolocation is not enabled or available.'
-      );
-    } else {
-      this.errorMessage = 'Geolocation is not supported by this browser.';
-    }
-  }
-
-  getWeatherByCoords(lat: number, lon: number) {
-    this.service.getWeatherByCoordinates(lat, lon).subscribe(
-      (resp) => {
-        this.weather = resp;
-        this.errorMessage = null;
-        const countryCode = resp.sys.country;
-        this.countryFlagUrl = `https://flagcdn.com/256x192/${countryCode?.toLowerCase() ?? 'unknown'}.png`;
-        this.countryName = countryCode;
-        this.setBodyBackground(resp.weather[0].main, resp.sys.sunrise, resp.sys.sunset);
-        this.showPhotos = true;
-      },
-      () => {
-        this.errorMessage = 'Failed to fetch weather data using your location.';
-        this.showPhotos = false;
-      }
-    );
+  // Receive weather data from SearchComponent
+  receiveWeatherData(weatherData: any) {
+    this.weather = weatherData;
+    this.currentCityName = weatherData.name;
+    const countryCode = weatherData.sys.country;
+    this.countryFlagUrl = `https://flagcdn.com/256x192/${countryCode?.toLowerCase() ?? 'unknown'}.png`;
+    this.countryName = countryCode;
+    this.setBodyBackground(weatherData.weather[0].main, weatherData.sys.sunrise, weatherData.sys.sunset);
+    this.showPhotos = true;
   }
 
   setBodyBackground(weatherCondition: string, sunrise: number, sunset: number) {

@@ -1,4 +1,7 @@
-<div class="search-container" [formGroup]="searchForm">
+<!-- Overlay Container with Search Form and Buttons -->
+<div class="overlay-container">
+  <h1>Weather App</h1>
+  <div class="search-container" [formGroup]="searchForm">
     <mat-form-field class="example-full-width">
       <input type="text" matInput placeholder="Enter City" formControlName="city" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
@@ -13,4 +16,4 @@
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
-  
+</div>
