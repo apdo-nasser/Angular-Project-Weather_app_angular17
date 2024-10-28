@@ -31,7 +31,6 @@ h1 {
   font-weight: bold;
 }
 
-
 /* Center the weather card */
 .content {
   display: flex;
@@ -58,4 +57,92 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Search bar and button container */
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px !important;
+}
+
+.mat-form-field {
+  width: 250px !important;
+  margin-right: 10px !important;
+  background-color: rgba(255, 255, 255, 0.2); /* Transparent background */
+  border-radius: 5px;
+  padding: 5px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  border: 2px solid transparent; /* Initial border */
+}
+
+.mat-form-field:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Slightly less transparent on hover */
+  border: 2px solid #fff; /* White border on hover */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Glow effect */
+}
+
+.search-button {
+  padding: 10px 20px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2), 0px 6px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.3s ease !important;
+  background-color: #1e90ff !important;
+  margin-right: 5px !important;
+}
+
+.geo-button {
+  padding: 10px 20px !important;
+  border: none !important;
+  border-radius: 5px !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2), 0px 6px 15px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.3s ease !important;
+  background-color: #32cd32 !important;
+}
+
+.search-button:hover {
+  background-color: #0b76e1 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.2), 0px 8px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.geo-button:hover {
+  background-color: #228b22 ;
+  transform: translateY(-2px) !important;
+  box-shadow: 0px 6px 0px rgba(0, 0, 0, 0.2), 0px 8px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.search-button:active,
+.geo-button:active {
+  transform: translateY(2px) !important;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2), 0px 4px 10px rgba(0, 0, 0, 0.15) !important;
+}
+
+.error-message {
+  margin-top: 10px !important;
+  color: red !important;
+  font-size: 1.2rem !important;
+}
+
+/* Animation for search container */
+.search-container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
